@@ -264,3 +264,16 @@ function create_functionality_plugin() {
 }
 
 register_activation_hook( __FILE__, 'create_functionality_plugin' );
+
+/**
+ * Load the plugin textdomain
+ *
+ * @return void
+ * @since  1.1
+ * @access public
+ */
+function load_functionality_textdomain() {
+	load_plugin_textdomain( 'functionality', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+}
+
+add_action( 'plugins_loaded', 'load_functionality_textdomain' );
