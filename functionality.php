@@ -6,9 +6,11 @@
  * Description: Makes it easy to create and edit your own functionality plugin for pasting snippets instead of in the theme's functions.php
  * Author: Shea Bunge
  * Author URI: http://bungeshea.com
- * Version: 1.0.1
+ * Version: 1.1
  * License: MIT
  * License URI: http://opensource.org/licenses/MIT
+ * Text Domain: functionality
+ * Domain Path: /languages
  */
 
 /**
@@ -20,7 +22,7 @@
  * created by this plugin in your plugins folder. When I refer to
  * 'this plugin', I'm talking about, you guessed it, this plugin
  *
- * @version   1.0.1
+ * @version   1.1
  * @author    Shea Bunge <info@bungeshea.com>
  * @copyright Copyright (c) 2013, Shea Bunge
  * @license   http://opensource.org/licenses/MIT
