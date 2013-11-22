@@ -42,6 +42,9 @@ This plugin is more suited to people who only have a few snippets and prefer edi
 = Isn't this just like the Pluginception plugin? =
 Yes, in that they are both a plugin for creating plugins. However, this plugin is a bit more easier to use and specific than Pluginception.
 
+== Screenshots ==
+1. Editing the functionality plugin in the WordPress plugin editor
+
 == Changelog ==
 
 = 1.1 =

@@ -8,3 +8,4 @@ See [this WP Daily post](http://wpdaily.co/functionality-plugin/) for more infor
 
 This plugin may be removed at any time, and your functionality plugin will remain working and intact. You will, however, loose the quick edit link in the admin menu.
 
+![Editing the functionality plugin in the WordPress plugin header](screenshots/banner-772x250.png)
