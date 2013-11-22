@@ -98,9 +98,13 @@ class Functionality_Plugin {
 	 * @access public
 	 */
 	public function get_plugin_header( $plugin_header = array() ) {
-		$plugin = $this->plugin_location . $this->plugin_filename;
 
+		/* Fetch the current user information */
+		global $user_identity, $user_url;
 		get_currentuserinfo();
+
+		/* Build the plugin header */
+		$plugin = $this->plugin_location . $this->plugin_filename;
 
 		$default_plugin_header = array(
 			'Plugin Name' => get_bloginfo( 'name' ),
@@ -134,57 +138,31 @@ class Functionality_Plugin {
 	 * Create the functions.php plugin file in the plugin
 	 * directory if it does not already exist
 	 *
-	 * @param  boolean $activate Activate the plugin after creation?
 	 * @return void
-	 *
 	 * @since  1.0
 	 * @access public
 	 */
-	public function create_plugin( $activate = true ) {
+	public function create_plugin() {
 		$file = $this->plugin_location . $this->plugin_filename;
 
 		/* Bail early if the file already exists */
 		if ( file_exists( $file ) )
 			return;
 
-		/* Create the file */
-		touch( $file );
+		/* Create the plugin file contents */
+		$file_contents = "<?php\n\n" . $this->get_plugin_header();
 
-		/* Open the file for writing */
+		/* Open the file for writing, implicitly creating a file */
 		if ( null != ( $handle = @fopen( $file, 'w' ) ) ) {
 
 			/* Attempt to write the contents of the string */
 			if ( null != fwrite( $handle, $file_contents, strlen( $file_contents ) ) ) {
 
 				/* Relinquish the resource */
-				fclose( $template_handle );
+				fclose( $handle );
 			}
 		}
 
-		/* Activate the plugin after creation */
-		if ( $activate ) {
-			$this->activate_plugin();
-		}
-	}
-
-	/**
-	 * Activate the functionality plugin
-	 *
-	 * @return void
-	 * @since  1.0
-	 * @access public
-	 */
-	public function activate_plugin() {
-		$current = get_option( 'active_plugins' );
-		$plugin = plugin_basename( trim( $this->plugin_filename ) );
-
-		if ( ! in_array( $plugin, $current ) ) {
-			$current[] = $plugin;
-			sort( $current );
-			do_action( 'activate_plugin', $plugin );
-			update_option( 'active_plugins', $current );
-			do_action( 'activate_' . $plugin );
-			do_action( 'activated_plugin', $plugin );
-		}
+		do_action( 'functionality_plugin_created', $file );
 	}
 }

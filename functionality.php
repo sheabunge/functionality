@@ -69,18 +69,51 @@ function functionality_plugin_admin_menu() {
 add_action( 'admin_menu', 'functionality_plugin_admin_menu' );
 
 /**
- * Create the functionality plugin when this plugin is activated
+ * Callback runs when this plugin is activated
  *
  * @return void
- * @since  1.0
+ * @since  1.1
+ * @access public
+ */
+function functionality_plugin_activate() {
+	add_option( 'functionality_plugin_activated', true );
+}
+
+register_activation_hook( __FILE__, 'functionality_plugin_activate' );
+
+/**
+ * Create and activate the functionality plugin
+ * after this plugin is activated
+ *
+ * @uses   activate_plugin() To activate the functionality plugin
+ * @return void
+ * @since  1.1
  * @access public
  */
 function create_functionality_plugin() {
-	functionality_plugin_init();
-	$GLOBALS['functionality_plugin_controller']->create_plugin();
+
+	/* Check if this plugin has just been activated */
+	if ( get_option( 'functionality_plugin_activated' ) ) {
+		delete_option( 'functionality_plugin_activated' );
+
+		/* Make sure that this plugin is set up */
+		functionality_plugin_init();
+
+		/* Create the plugin */
+		$GLOBALS['functionality_plugin_controller']->create_plugin();
+
+		/* Activate the plugin */
+		$plugin = $GLOBALS['functionality_plugin_controller']->get_plugin_filename();
+
+		if ( ! function_exists( 'activate_plugin' ) ) {
+			require_once ABSPATH . '/wp-admin/includes/plugin.php';
+		}
+
+		activate_plugin( $plugin );
+	}
 }
 
-register_activation_hook( __FILE__, 'create_functionality_plugin' );
+add_action( 'init', 'create_functionality_plugin' );
 
 /**
  * Load the plugin textdomain
