@@ -150,7 +150,7 @@ class Functionality_Plugin {
 			return;
 
 		/* Create the plugin file contents */
-		$file_contents = "<?php\n\n" . $this->get_plugin_header();
+		$file_contents = "<?php\n\n" . $this->get_plugin_header() . "\n";
 
 		/* Open the file for writing, implicitly creating a file */
 		if ( null != ( $handle = @fopen( $file, 'w' ) ) ) {
