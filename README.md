@@ -6,15 +6,5 @@ This plugin automates the process of creating a functionality plugin. Simply ins
 
 See [this WP Daily post](http://wpdaily.co/functionality-plugin/) for more information on functionality plugins.
 
-## Installation
-
-1. Upload `functionality.php` to the `/wp-content/plugins/` directory
-2. Activate the plugin through the 'Plugins' menu in WordPress
-3. A functionality plugin will be created for you in `wp-content/plugins/functions.php`
-4. Use the built-in WordPress file editor to edit your functionality plugin
-
 This plugin may be removed at any time, and your functionality plugin will remain working and intact. You will, however, loose the quick edit link in the admin menu.
 
-## License
-
-Licensed under the [MIT license](http://opensource.org/licenses/MIT)
