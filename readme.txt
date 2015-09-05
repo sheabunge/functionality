@@ -2,7 +2,7 @@
 Contributors: bungeshea
 Donate link: http://bungeshea.com/donate/
 Tags: functionality, functions.php
-Tested up to: 3.9.1
+Tested up to: 4.3
 Stable tag: 1.1
 License: MIT
 License URI: http://opensource.org/licenses/MIT
@@ -17,7 +17,7 @@ This plugin automates the process of creating a functionality plugin. Simply ins
 
 See [this WP Daily post](http://wpdaily.co/functionality-plugin/) for more information on functionality plugins.
 
-This plugin's code is [available on GitHub](https://github.com/bungeshea/functionality). Please feel free to fork the repository and send a pull request. If you find a bug in the plugin, open an issue.
+This plugin's code is [available on GitHub](https://github.com/sheabunge/functionality). Please feel free to fork the repository and send a pull request. If you find a bug in the plugin, open an issue.
 
 == Installation ==
 
