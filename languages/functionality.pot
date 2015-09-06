@@ -1,24 +1,24 @@
-# Copyright (C) 2013 Functionality
+# Copyright (C) 2015 Functionality
 # This file is distributed under the same license as the Functionality package.
 msgid ""
 msgstr ""
 "Project-Id-Version: Functionality 1.1\n"
-"Report-Msgid-Bugs-To: http://wordpress.org/tag/functionality\n"
-"POT-Creation-Date: 2013-11-24 02:01:31+00:00\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/support/plugin/functionality\n"
+"POT-Creation-Date: 2015-09-06 03:56:20+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2013-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2015-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
-#: class-functionality-plugin.php:112
+#: class-functionality-plugin.php:100
 msgid ""
 "A site-specific functionality plugin for %s where you can paste your code "
 "snippets instead of using the theme's functions.php file"
 msgstr ""
 
-#: functionality.php:62 functionality.php:63
+#: functionality.php:63 functionality.php:64
 msgid "Edit Functions"
 msgstr ""
 
@@ -27,7 +27,7 @@ msgid "Functionality"
 msgstr ""
 
 #. Plugin URI of the plugin/theme
-msgid "https://github.com/bungeshea/functionality"
+msgid "https://github.com/sheabunge/functionality"
 msgstr ""
 
 #. Description of the plugin/theme
