@@ -8,29 +8,26 @@ class Functionality_Plugin {
 	/**
 	 * The filename of the functionality plugin
 	 *
-	 * @var    string
-	 * @since  1.0
-	 * @access protected
+	 * @var string
+	 * @since 1.0
 	 */
 	protected $plugin_filename = '';
 
 	/**
 	 * The filesystem location of the plugin file
 	 *
-	 * @var    string
-	 * @since  1.0
-	 * @access protected
+	 * @var string
+	 * @since 1.0
 	 */
 	protected $plugin_location = '';
 
 	/**
 	 * Constructor
 	 *
-	 * @param  string $plugin_filename The filename of the functionality plugin
-	 * @param  string $plugin_location The filesystem location of the plugin file
+	 * @since 1.0
 	 *
-	 * @since  1.0
-	 * @access public
+	 * @param string $plugin_filename The filename of the functionality plugin
+	 * @param string $plugin_location The filesystem location of the plugin file
 	 */
 	public function __construct( $plugin_filename, $plugin_location = WP_PLUGIN_DIR ) {
 		$this->set_plugin_filename( $plugin_filename );
@@ -40,9 +37,8 @@ class Functionality_Plugin {
 	/**
 	 * Retrieve the filename of the functionality plugin
 	 *
+	 * @since 1.0
 	 * @return string
-	 * @since  1.0
-	 * @access public
 	 */
 	public function get_plugin_filename() {
 		return $this->plugin_filename;
@@ -52,11 +48,8 @@ class Functionality_Plugin {
 	 * Set the filename of the functionality plugin.
 	 * Note that this only changes the variable, it does not to any renaming
 	 *
-	 * @param  string $filename
-	 * @return void
-	 *
-	 * @since  1.0
-	 * @access public
+	 * @since 1.0
+	 * @param string $filename
 	 */
 	public function set_plugin_filename( $filename ) {
 		$this->plugin_filename = sanitize_file_name( $filename );
@@ -65,9 +58,8 @@ class Functionality_Plugin {
 	/**
 	 * Retrieve the filesystem location of the functionality plugin
 	 *
+	 * @since 1.0
 	 * @return string
-	 * @since  1.0
-	 * @access public
 	 */
 	public function get_plugin_location() {
 		return $this->plugin_location;
@@ -77,11 +69,8 @@ class Functionality_Plugin {
 	 * Set the filesystem location of the functionality plugin.
 	 * Note that this only changes the variable, it does not to any moving
 	 *
-	 * @param  string $dir
-	 * @return void
-	 *
-	 * @since  1.0
-	 * @access public
+	 * @since 1.0
+	 * @param string $dir
 	 */
 	public function set_plugin_location( $dir ) {
 		$this->plugin_location = trailingslashit( $dir );
@@ -91,11 +80,10 @@ class Functionality_Plugin {
 	/**
 	 * Build the header comment for the plugin
 	 *
-	 * @param  array $plugin_header The headers for the plugin
-	 * @return string
-	 *
 	 * @since  1.0
-	 * @access public
+	 *
+	 * @param  array  $plugin_header The headers for the plugin
+	 * @return string
 	 */
 	public function get_plugin_header( $plugin_header = array() ) {
 
@@ -138,16 +126,15 @@ class Functionality_Plugin {
 	 * Create the functions.php plugin file in the plugin
 	 * directory if it does not already exist
 	 *
-	 * @return void
-	 * @since  1.0
-	 * @access public
+	 * @since 1.0
 	 */
 	public function create_plugin() {
 		$file = $this->plugin_location . $this->plugin_filename;
 
 		/* Bail early if the file already exists */
-		if ( file_exists( $file ) )
+		if ( file_exists( $file ) ) {
 			return;
+		}
 
 		/* Create the plugin file contents */
 		$file_contents = "<?php\n\n" . $this->get_plugin_header() . "\n";
