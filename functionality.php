@@ -34,16 +34,19 @@ Domain Path: /languages
  *
  * @since 1.0
  * @uses apply_filters() to allow changing of the filename without hacking
+ * @return Functionality_Plugin
  */
-function functionality_plugin_init() {
-	if ( ! isset( $GLOBALS['functionality_plugin_controller'] ) ) {
-		require_once plugin_dir_path( __FILE__ ) . 'class-functionality-plugin.php';
-		$filename = apply_filters( 'functionality_plugin_filename', 'functions.php' );
-		$GLOBALS['functionality_plugin_controller'] = new Functionality_Plugin( $filename );
-	}
-}
+function get_functionality_plugin() {
+	static $plugin;
 
-add_action( 'plugins_loaded', 'functionality_plugin_init' );
+	if ( ! isset( $plugin ) ) {
+		require_once dirname( __FILE__ ) . '/class-functionality-plugin.php';
+		$filename = apply_filters( 'functionality_plugin_filename', 'functions.php' );
+		$plugin = new Functionality_Plugin( $filename );
+	}
+
+	return $plugin;
+}
 
 /**
  * Add a link to edit the functionality plugin
@@ -53,7 +56,8 @@ add_action( 'plugins_loaded', 'functionality_plugin_init' );
  * @uses add_plugins_page() To register the new submenu page
  */
 function functionality_plugin_admin_menu() {
-	$plugin_file = $GLOBALS['functionality_plugin_controller']->get_plugin_filename();
+	$functionality = get_functionality_plugin();
+	$plugin_file = $functionality->get_plugin_filename();
 
 	add_plugins_page(
 		__( 'Edit Functions', 'functionality' ),
@@ -86,24 +90,25 @@ register_activation_hook( __FILE__, 'functionality_plugin_activate' );
 function create_functionality_plugin() {
 
 	/* Check if this plugin has just been activated */
-	if ( get_option( 'functionality_plugin_activated' ) ) {
-		delete_option( 'functionality_plugin_activated' );
-
-		/* Make sure that this plugin is set up */
-		functionality_plugin_init();
-
-		/* Create the plugin */
-		$GLOBALS['functionality_plugin_controller']->create_plugin();
-
-		/* Activate the plugin */
-		$plugin = $GLOBALS['functionality_plugin_controller']->get_plugin_filename();
-
-		if ( ! function_exists( 'activate_plugin' ) ) {
-			require_once ABSPATH . '/wp-admin/includes/plugin.php';
-		}
-
-		activate_plugin( $plugin );
+	if ( ! get_option( 'functionality_plugin_activated', false ) ) {
+		return;
 	}
+
+	delete_option( 'functionality_plugin_activated' );
+
+	$functionality = get_functionality_plugin();
+
+	/* Create the plugin */
+	$functionality->create_plugin();
+
+	/* Activate the plugin */
+	$plugin = $functionality->get_plugin_filename();
+
+	if ( ! function_exists( 'activate_plugin' ) ) {
+		require_once ABSPATH . '/wp-admin/includes/plugin.php';
+	}
+
+	activate_plugin( $plugin );
 }
 
 add_action( 'init', 'create_functionality_plugin' );
