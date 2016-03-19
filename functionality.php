@@ -30,96 +30,46 @@ Domain Path: /languages
 */
 
 /**
+ * Enable autoloading of plugin classes
+ * @param $class_name
+ */
+function functionality_autoload( $class_name ) {
+
+	/* Only autoload classes from this plugin */
+	if ( 'Functionality' !== substr( $class_name, 0, 13 ) ) {
+		return;
+	}
+
+	/* Remove namespace from class name */
+	$class_file = str_replace( 'Functionality_', '', $class_name );
+
+	/* Convert class name format to file name format */
+	$class_file = strtolower( $class_file );
+	$class_file = str_replace( '_', '-', $class_file );
+
+
+	/* Load the class */
+	require_once dirname( __FILE__ ) . "/php/class-{$class_file}.php";
+}
+
+spl_autoload_register( 'functionality_autoload' );
+
+
+/**
  * Create an instance of the class
  *
  * @since 1.0
  * @uses apply_filters() to allow changing of the filename without hacking
- * @return Functionality_Plugin
+ * @return Functionality_Controller
  */
-function get_functionality_plugin() {
-	static $plugin;
+function functionality() {
+	static $controller;
 
-	if ( ! isset( $plugin ) ) {
-		require_once dirname( __FILE__ ) . '/class-functionality-plugin.php';
-		$filename = apply_filters( 'functionality_plugin_filename', 'functions.php' );
-		$plugin = new Functionality_Plugin( $filename );
+	if ( ! isset( $controller ) ) {
+		$controller = new Functionality_Controller();
 	}
 
-	return $plugin;
+	return $controller;
 }
 
-/**
- * Add a link to edit the functionality plugin
- * to the Plugins admin menu for easy access
- *
- * @since 1.0
- * @uses add_plugins_page() To register the new submenu page
- */
-function functionality_plugin_admin_menu() {
-	$functionality = get_functionality_plugin();
-	$plugin_file = $functionality->get_plugin_filename();
-
-	add_plugins_page(
-		__( 'Edit Functions', 'functionality' ),
-		__( 'Edit Functions', 'functionality' ),
-		'edit_plugins',
-		add_query_arg( 'file', $plugin_file, 'plugin-editor.php' )
-	);
-}
-
-add_action( 'admin_menu', 'functionality_plugin_admin_menu' );
-
-/**
- * Callback runs when this plugin is activated
- *
- * @since 1.1
- */
-function functionality_plugin_activate() {
-	add_option( 'functionality_plugin_activated', true );
-}
-
-register_activation_hook( __FILE__, 'functionality_plugin_activate' );
-
-/**
- * Create and activate the functionality plugin
- * after this plugin is activated
- *
- * @since 1.1
- * @uses activate_plugin() to activate the functionality plugin
- */
-function create_functionality_plugin() {
-
-	/* Check if this plugin has just been activated */
-	if ( ! get_option( 'functionality_plugin_activated', false ) ) {
-		return;
-	}
-
-	delete_option( 'functionality_plugin_activated' );
-
-	$functionality = get_functionality_plugin();
-
-	/* Create the plugin */
-	$functionality->create_plugin();
-
-	/* Activate the plugin */
-	$plugin = $functionality->get_plugin_filename();
-
-	if ( ! function_exists( 'activate_plugin' ) ) {
-		require_once ABSPATH . '/wp-admin/includes/plugin.php';
-	}
-
-	activate_plugin( $plugin );
-}
-
-add_action( 'init', 'create_functionality_plugin' );
-
-/**
- * Load the plugin textdomain
- *
- * @since 1.1
- */
-function load_functionality_textdomain() {
-	load_plugin_textdomain( 'functionality', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
-}
-
-add_action( 'plugins_loaded', 'load_functionality_textdomain' );
+functionality()->run();
