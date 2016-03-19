@@ -24,7 +24,7 @@ class Functionality_Controller {
 		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
 		add_action( 'plugins_loaded', array( $this, 'load_textdomain' ) );
 		add_action( 'init', array( $this, 'create_plugin' ) );
-		register_activation_hook( __FILE__, array( $this, 'activation_hook') );
+		register_activation_hook( __FILE__, array( __CLASS__, 'activation_hook') );
 	}
 
 	/**
@@ -50,7 +50,7 @@ class Functionality_Controller {
 	 *
 	 * @since 1.1
 	 */
-	function activation_hook() {
+	public static function activation_hook() {
 		add_option( 'functionality_plugin_activated', true );
 	}
 
