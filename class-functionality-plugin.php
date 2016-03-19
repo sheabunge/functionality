@@ -80,26 +80,24 @@ class Functionality_Plugin {
 	/**
 	 * Build the header comment for the plugin
 	 *
-	 * @since  1.0
+	 * @since 1.0
 	 *
-	 * @param  array  $plugin_header The headers for the plugin
+	 * @param array $plugin_header The headers for the plugin
+	 *
 	 * @return string
 	 */
 	public function get_plugin_header( $plugin_header = array() ) {
 
-		/* Fetch the current user information */
-		global $user_identity, $user_url;
-		get_currentuserinfo();
-
 		/* Build the plugin header */
 		$plugin = $this->plugin_location . $this->plugin_filename;
+		$current_user = wp_get_current_user();
 
 		$default_plugin_header = array(
 			'Plugin Name' => get_bloginfo( 'name' ),
 			'Plugin URI'  => home_url(),
 			'Description' => sprintf ( __( "A site-specific functionality plugin for %s where you can paste your code snippets instead of using the theme's functions.php file", 'functionality' ), get_bloginfo( 'name' ) ),
-			'Author'      => $user_identity,
-			'Author URI'  => $user_url,
+			'Author'      => $current_user->display_name,
+			'Author URI'  => $current_user->user_url,
 			'Version'     => date( 'Y.m.d' ),
 			'License'     => 'GPL',
 		);
