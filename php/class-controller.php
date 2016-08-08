@@ -36,13 +36,22 @@ class Functionality_Controller {
 	 */
 	public function admin_menu() {
 		$plugin_file = $this->plugin->get_plugin_filename();
+		$page_title = __( 'Edit Functions', 'functionality' );
+		$page_url = add_query_arg( 'file', $plugin_file, 'plugin-editor.php' );
 
-		add_plugins_page(
-			__( 'Edit Functions', 'functionality' ),
-			__( 'Edit Functions', 'functionality' ),
-			'edit_plugins',
-			add_query_arg( 'file', $plugin_file, 'plugin-editor.php' )
-		);
+		if ( class_exists( 'WPEditor' )  ) {
+
+			$page_url = add_query_arg(
+				array(
+					'page' => 'wpeditor_plugin',
+					'plugin' => $plugin_file,
+				),
+				'admin.php'
+			);
+
+		}
+
+		add_plugins_page( $page_title, $page_title, 'edit_plugins', $page_url );
 	}
 	
 	/**
