@@ -12,11 +12,18 @@ class Functionality_Controller {
 	public $plugin;
 
 	/**
-	 * Class constructor
+	 * Full filesystem path to main plugin file
+	 * @var string
 	 */
-	public function __construct() {
-		$filename = apply_filters( 'functionality_plugin_filename', 'functions.php' );
+	public $file;
 
+	/**
+	 * Class constructor
+	 * @param string $file Full filesystem path to main plugin file
+	 */
+	public function __construct( $file ) {
+		$this->file = $file;
+		$filename = apply_filters( 'functionality_plugin_filename', 'functions.php' );
 		$this->plugin = new Functionality_Plugin( $filename );
 	}
 
@@ -24,7 +31,7 @@ class Functionality_Controller {
 		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
 		add_action( 'plugins_loaded', array( $this, 'load_textdomain' ) );
 		add_action( 'init', array( $this, 'create_plugin' ) );
-		register_activation_hook( __FILE__, array( __CLASS__, 'activation_hook') );
+		register_activation_hook( $this->file, array( __CLASS__, 'activation_hook') );
 	}
 
 	/**
@@ -97,7 +104,7 @@ class Functionality_Controller {
 	 * @since 1.1
 	 */
 	function load_textdomain() {
-		load_plugin_textdomain( 'functionality', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+		load_plugin_textdomain( 'functionality', false, dirname( plugin_basename( $this->file ) ) . '/languages/' );
 	}
 }
 

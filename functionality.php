@@ -66,7 +66,7 @@ function functionality() {
 	static $controller;
 
 	if ( ! isset( $controller ) ) {
-		$controller = new Functionality_Controller();
+		$controller = new Functionality_Controller( __FILE__ );
 	}
 
 	return $controller;
