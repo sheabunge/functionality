@@ -10,7 +10,7 @@
  * When I refer to 'this plugin', I'm talking about the plugin
  * whose code you're currently looking at.
  *
- * @version   1.2.0
+ * @version   1.2.1
  * @author    Shea Bunge <shea@bungeshea.com>
  * @copyright Copyright (c) 2013-2016, Shea Bunge
  * @license   https://opensource.org/licenses/MIT
@@ -22,7 +22,7 @@ Plugin URI: https://github.com/sheabunge/functionality
 Description: Makes it easy to create and edit your own functionality plugin for pasting snippets instead of in the theme's functions.php
 Author: Shea Bunge
 Author URI: https://bungeshea.com
-Version: 1.2.0
+Version: 1.2.1
 License: MIT
 License URI: https://opensource.org/licenses/MIT
 Text Domain: functionality

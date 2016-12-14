@@ -3,7 +3,7 @@ Contributors: bungeshea
 Donate link: https://bungeshea.com/donate/
 Tags: functionality, functions.php
 Tested up to: 4.6
-Stable tag: 1.2.0
+Stable tag: 1.2.1
 License: MIT
 License URI: https://opensource.org/licenses/MIT
 
@@ -48,6 +48,9 @@ Yes, in that they are both a plugin for creating plugins. However, this plugin i
 1. Editing the functionality plugin in the WordPress plugin editor
 
 == Changelog ==
+
+= 1.2.1 =
+* Fixed bug preventing functionality plugin from being created on plugin activation
 
 = 1.2.0 =
 * Updated to use `wp_get_current_user()`` instead of `get_currentuserinfo()`
