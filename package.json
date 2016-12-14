@@ -1,0 +1,28 @@
+{
+  "name": "functionality",
+  "version": "1.2.0",
+  "description": "Makes it easy to create and edit your own WordPress functionality plugin for pasting snippets",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sheabunge/functionality.git"
+  },
+  "keywords": [
+    "wordpress-plugin"
+  ],
+  "author": "Shea Bunge <shea@bungeshea.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sheabunge/functionality/issues"
+  },
+  "homepage": "https://github.com/sheabunge/functionality#readme",
+  "devDependencies": {
+    "grunt": "^0.4.2",
+    "grunt-contrib-copy": "^0.5.0",
+    "grunt-po2mo": "^0.1.0",
+    "grunt-pot": "^0.1.2",
+    "grunt-contrib-clean": "^0.5.0",
+    "grunt-checktextdomain": "^0.1.1",
+    "grunt-newer": "^0.6.1",
+    "load-grunt-tasks": "^0.3.0"
+  }
+}
