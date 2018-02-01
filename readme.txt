@@ -2,7 +2,7 @@
 Contributors: bungeshea
 Donate link: https://bungeshea.com/donate/
 Tags: functionality, functions.php
-Tested up to: 4.6
+Tested up to: 4.9.2
 Stable tag: 1.2.1
 License: MIT
 License URI: https://opensource.org/licenses/MIT
