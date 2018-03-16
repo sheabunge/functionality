@@ -161,7 +161,7 @@ class Functionality_File {
 	/**
 	 * Add a link to edit this file to the Plugins admin menu for easy access
 	 *
-	 * @param string $label      Text to use for the menu label
+	 * @param string $label Text to use for the menu label
 	 *
 	 * @return string hook name for the newly created page
 	 */

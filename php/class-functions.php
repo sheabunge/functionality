@@ -5,22 +5,56 @@
  */
 class Functionality_Functions extends Functionality_File {
 
-	public function create_file() {
+	/**
+	 * Create file in the plugins directory if it does not already exist
+	 *
+	 * @param string $migrate         Instead of creating a new file, migrate the provided file
+	 * @param bool   $activate_plugin Activate the plugin after creation
+	 *
+	 * @return bool If the file creation was successful
+	 *
+	 * @since 1.0
+	 */
+	public function create_file( $migrate = '', $activate_plugin = true ) {
 
-		if ( ! file_exists( $this->get_full_path() ) ) {
-
-			/* Create the file using the parent function */
-			if ( ! $result = parent::create_file() ) {
-				return false;
-			}
-
-			/* Run an action hook */
-			do_action( 'functionality_plugin_created', $this->get_full_path() );
+		/* No need to do anything here if the plugin has already been created */
+		if ( file_exists( $this->get_full_path() ) ) {
+			return false;
 		}
 
-		if ( ! is_plugin_active( $this->get_file() ) ) {
+		/* Create the new file using the parent function */
+		if ( ! $result = parent::create_file() ) {
+			return false;
+		}
 
-			/* Activate the plugin */
+		do_action( 'functionality_plugin_created', $this->get_full_path() );
+
+		/* Clean up the previous version of the plugin if existing */
+		global $wp_filesystem; /** @var WP_Filesystem_Base $wp_filesystem */
+
+		if ( file_exists( WP_PLUGIN_DIR . '/functions.php' ) ) {
+
+			/* Deactivate the old version of this plugin if is active */
+			if ( is_plugin_active( 'functions.php' ) ) {
+				if ( ! function_exists( 'deactivate_plugins' ) ) {
+					require_once ABSPATH . '/wp-admin/includes/plugin.php';
+				}
+
+				deactivate_plugins( 'functions.php' );
+			} else {
+				/* Don't automatically activate the new plugin if this one was inactive */
+				$activate_plugin = false;
+			}
+
+			/* Delete the file */
+			if ( $wp_filesystem ) {
+				$wp_filesystem->delete( WP_PLUGIN_DIR . '/functions.php' );
+			}
+		}
+
+		/* Activate the newly-created plugin */
+		if ( $activate_plugin && ! is_plugin_active( $this->get_file() ) ) {
+
 			if ( ! function_exists( 'activate_plugin' ) ) {
 				require_once ABSPATH . '/wp-admin/includes/plugin.php';
 			}
@@ -36,8 +70,27 @@ class Functionality_Functions extends Functionality_File {
 	 * @return string
 	 */
 	public function get_default_content() {
-		return "<?php\n\n" . $this->get_plugin_header() .
-		       "\n// uncomment the below line to enable CSS functionality\n// add_filter( 'functionality_enable_styles', '__return_true' );\n\n";
+		$content = '';
+
+		/** @var WP_Filesystem_Base $wp_filesystem */
+		global $wp_filesystem;
+
+		/* copy over content from previous location if existing */
+		$previous_file = WP_PLUGIN_DIR . '/functions.php';
+		if ( $wp_filesystem && $wp_filesystem->exists( $previous_file ) && $wp_filesystem->is_file( $previous_file ) ) {
+			$content = $wp_filesystem->get_contents( $previous_file );
+		}
+
+		/* otherwise build default content */
+		if ( '' === $content ) {
+			$content = "<?php\n\n" . $this->get_plugin_header();
+		}
+
+		/* add code for enabling the CSS feature */
+		$content .= "\n// uncomment the below line to enable CSS functionality\n";
+		$content .= "// add_filter( 'functionality_enable_styles', '__return_true' );\n\n";
+
+		return $content;
 	}
 
 	/**
@@ -69,5 +122,4 @@ class Functionality_Functions extends Functionality_File {
 
 		return $this->build_header_comment( $plugin_header );
 	}
-
 }

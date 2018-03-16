@@ -59,7 +59,6 @@ spl_autoload_register( 'functionality_autoload' );
  * Create an instance of the class
  *
  * @since 1.0
- * @uses apply_filters() to allow changing of the filename without hacking
  * @return Functionality_Controller
  */
 function functionality() {
