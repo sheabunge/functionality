@@ -7,104 +7,74 @@
 class Functionality_Controller {
 
 	/**
-	 * @var Functionality_Plugin
+	 * @var Functionality_Functions
 	 */
-	public $plugin;
+	public $functions;
+
+	/**
+	 * @var Functionality_Styles
+	 */
+	public $styles;
 
 	/**
 	 * Full filesystem path to main plugin file
 	 * @var string
 	 */
-	public $file;
+	public $plugin_file;
+
+	/**
+	 * Determines whether the CSS styles component is enabled
+	 * @var bool
+	 */
+	public $styles_enabled = false;
 
 	/**
 	 * Class constructor
-	 * @param string $file Full filesystem path to main plugin file
+	 * @param string $plugin_file Full filesystem path to main plugin file
 	 */
-	public function __construct( $file ) {
-		$this->file = $file;
+	public function __construct( $plugin_file ) {
+		$this->plugin_file = $plugin_file;
+	}
+
+	/**
+	 * Load the class
+	 */
+	public function load() {
+		$this->styles_enabled = apply_filters( 'functionality_enable_styles', false );
+
 		$filename = apply_filters( 'functionality_plugin_filename', 'functions.php' );
-		$this->plugin = new Functionality_Plugin( $filename );
-	}
+		$this->functions = new Functionality_Functions( $filename );
 
-	public function run() {
-		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
-		add_action( 'plugins_loaded', array( $this, 'load_textdomain' ) );
-		add_action( 'init', array( $this, 'create_plugin' ) );
-		register_activation_hook( $this->file, array( __CLASS__, 'activation_hook') );
-	}
-
-	/**
-	 * Add a link to edit the functionality plugin
-	 * to the Plugins admin menu for easy access
-	 *
-	 * @since 1.0
-	 * @uses add_plugins_page() To register the new submenu page
-	 */
-	public function admin_menu() {
-		$plugin_file = $this->plugin->get_plugin_filename();
-		$page_title = __( 'Edit Functions', 'functionality' );
-		$page_url = add_query_arg( 'file', $plugin_file, 'plugin-editor.php' );
-
-		if ( class_exists( 'WPEditor' )  ) {
-
-			$page_url = add_query_arg(
-				array(
-					'page' => 'wpeditor_plugin',
-					'plugin' => $plugin_file,
-				),
-				'admin.php'
-			);
-
+		if ( $this->styles_enabled ) {
+			$filename = apply_filters( 'functionality_css_filename', 'style.css' );
+			$this->styles = new Functionality_Styles( $filename );
 		}
 
-		add_plugins_page( $page_title, $page_title, 'edit_plugins', $page_url );
-	}
-	
-	/**
-	 * Callback runs when this plugin is activated
-	 *
-	 * @since 1.1
-	 */
-	public static function activation_hook() {
-		add_option( 'functionality_plugin_activated', true );
+		add_action( 'admin_menu', array( $this, 'add_admin_menus' ) );
+
+		$this->load_textdomain();
 	}
 
 	/**
-	 * Create and activate the functionality plugin
-	 * after this plugin is activated
-	 *
-	 * @since 1.1
-	 * @uses activate_plugin() to activate the functionality plugin
+	 * Register the edit menus for both files
 	 */
-	function create_plugin() {
+	public function add_admin_menus() {
 
-		/* Check if this plugin has just been activated */
-		if ( ! get_option( 'functionality_plugin_activated', false ) ) {
-			return;
+		if ( $this->styles_enabled ) {
+			$this->styles->register_edit_menu( __( 'Edit Styles', 'functionality' ) );
 		}
 
-		/* Create the plugin */
-		$this->plugin->create_plugin();
-
-		/* Activate the plugin */
-		if ( ! function_exists( 'activate_plugin' ) ) {
-			require_once ABSPATH . '/wp-admin/includes/plugin.php';
-		}
-
-		$filename = $this->plugin->get_plugin_filename();
-		activate_plugin( $filename );
-
-		delete_option( 'functionality_plugin_activated' );
+		$this->functions->register_edit_menu( __( 'Edit Functions', 'functionality' ) );
 	}
 
 	/**
-	 * Load the plugin textdomain
+	 * Load the plugin translation files
 	 *
 	 * @since 1.1
 	 */
 	function load_textdomain() {
-		load_plugin_textdomain( 'functionality', false, dirname( plugin_basename( $this->file ) ) . '/languages/' );
+		$rel_path = dirname( plugin_basename( $this->plugin_file ) );
+		load_plugin_textdomain( 'functionality', false,  $rel_path . '/languages/' );
 	}
 }
 

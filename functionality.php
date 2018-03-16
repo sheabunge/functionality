@@ -72,4 +72,4 @@ function functionality() {
 	return $controller;
 }
 
-functionality()->run();
+add_action( 'plugins_loaded', array( functionality(), 'load' ) );
