@@ -213,10 +213,12 @@ class Functionality_File {
 		/* Start the header comment */
 		$plugin_header_comment = "/*\n";
 
+		$padding_length = max( array_map( 'strlen', array_keys( $fields ) ) );
+
 		foreach ( $fields as $i => $v ) {
 
 			/* Add the headers to the comment */
-			$plugin_header_comment .= "{$i}: {$v}\n";
+			$plugin_header_comment .= "{$i}: " . str_repeat( ' ', $padding_length - strlen( $i ) ) . "{$v}\n";
 		}
 
 		/* Finish it off by closing the comment and adding a new line */
