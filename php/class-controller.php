@@ -48,6 +48,7 @@ class Functionality_Controller {
 		if ( $this->styles_enabled ) {
 			$filename = apply_filters( 'functionality_css_filename', 'style.css' );
 			$this->styles = new Functionality_Styles( $filename );
+			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ) );
 		}
 
 		add_action( 'admin_menu', array( $this, 'add_admin_menus' ) );
@@ -65,6 +66,15 @@ class Functionality_Controller {
 		}
 
 		$this->functions->register_edit_menu( __( 'Edit Functions', 'functionality' ) );
+	}
+
+	/**
+	 * Enqueue the stylesheet on the front-end if enabled
+	 */
+	public function enqueue_styles() {
+		if ( $this->styles_enabled ) {
+			$this->styles->enqueue_style();
+		}
 	}
 
 	/**
