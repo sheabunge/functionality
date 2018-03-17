@@ -8,14 +8,11 @@ class Functionality_Functions extends Functionality_File {
 	/**
 	 * Create file in the plugins directory if it does not already exist
 	 *
-	 * @param string $migrate         Instead of creating a new file, migrate the provided file
-	 * @param bool   $activate_plugin Activate the plugin after creation
+	 * @param bool $activate_plugin Activate the plugin after creation
 	 *
 	 * @return bool If the file creation was successful
-	 *
-	 * @since 1.0
 	 */
-	public function create_file( $migrate = '', $activate_plugin = true ) {
+	public function create_file( $activate_plugin = true ) {
 
 		/* No need to do anything here if the plugin has already been created */
 		if ( file_exists( $this->get_full_path() ) ) {
@@ -29,7 +26,7 @@ class Functionality_Functions extends Functionality_File {
 
 		do_action( 'functionality_plugin_created', $this->get_full_path() );
 
-		/* Clean up the previous version of the plugin if existing */
+		/* Clean up the previous version of the plugin if it exists */
 		global $wp_filesystem; /** @var WP_Filesystem_Base $wp_filesystem */
 
 		if ( file_exists( WP_PLUGIN_DIR . '/functions.php' ) ) {
@@ -82,7 +79,7 @@ class Functionality_Functions extends Functionality_File {
 		}
 
 		/* otherwise build default content */
-		if ( '' === $content ) {
+		if ( empty( $content ) ) {
 			$content = "<?php\n\n" . $this->get_plugin_header();
 		}
 

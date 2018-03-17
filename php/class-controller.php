@@ -72,7 +72,7 @@ class Functionality_Controller {
 	 * Enqueue the stylesheet on the front-end if enabled
 	 */
 	public function enqueue_styles() {
-		if ( $this->styles_enabled ) {
+		if ( $this->styles_enabled && apply_filters( 'functionality_enqueue_styles', true ) ) {
 			$this->styles->enqueue_style();
 		}
 	}
