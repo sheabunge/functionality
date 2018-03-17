@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: functionality 2.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-17 18:23+1100\n"
+"POT-Creation-Date: 2018-03-17 20:30+1100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,7 +25,7 @@ msgstr ""
 msgid "Edit Functions"
 msgstr ""
 
-#: php/class-functions.php:110
+#: php/class-functions.php:106
 #, php-format
 msgid ""
 "A site-specific functionality plugin for %s where you can paste your code "
