@@ -167,13 +167,13 @@ class Functionality_File {
 	/**
 	 * Create file in the plugins directory if it does not already exist
 	 *
-	 * @param bool $silent Attempt to create the plugin without prompting for filesystem credentials
+	 * @param bool $silent Attempt to create the file without prompting for filesystem credentials
 	 *
 	 * @return bool true if file now exists
 	 *
 	 * @since 1.0
 	 */
-	public function create_file( $silent = true ) {
+	public function create_file( $silent ) {
 		$file = $this->get_full_path();
 
 		/* Bail early if the file already exists */

@@ -8,11 +8,12 @@ class Functionality_Functions extends Functionality_File {
 	/**
 	 * Create file in the plugins directory if it does not already exist
 	 *
+	 * @param bool $silent Attempt to create the file without prompting for filesystem credentials
 	 * @param bool $activate_plugin Activate the plugin after creation
 	 *
-	 * @return bool If the file creation was successful
+	 * @return bool If the file now exists
 	 */
-	public function create_file( $activate_plugin = true ) {
+	public function create_file( $silent, $activate_plugin = true ) {
 
 		/* No need to do anything here if the plugin has already been created */
 		if ( file_exists( $this->get_full_path() ) ) {
@@ -20,7 +21,7 @@ class Functionality_Functions extends Functionality_File {
 		}
 
 		/* Create the new file using the parent function */
-		if ( ! $result = parent::create_file() ) {
+		if ( ! $result = parent::create_file( $silent ) ) {
 			return false;
 		}
 
@@ -29,14 +30,14 @@ class Functionality_Functions extends Functionality_File {
 		/* Clean up the previous version of the plugin if it exists */
 		global $wp_filesystem; /** @var WP_Filesystem_Base $wp_filesystem */
 
+		if ( ! function_exists( 'deactivate_plugins' ) ) {
+			require_once ABSPATH . '/wp-admin/includes/plugin.php';
+		}
+
 		if ( file_exists( WP_PLUGIN_DIR . '/functions.php' ) ) {
 
 			/* Deactivate the old version of this plugin if is active */
 			if ( is_plugin_active( 'functions.php' ) ) {
-				if ( ! function_exists( 'deactivate_plugins' ) ) {
-					require_once ABSPATH . '/wp-admin/includes/plugin.php';
-				}
-
 				deactivate_plugins( 'functions.php' );
 			} else {
 				/* Don't automatically activate the new plugin if this one was inactive */
@@ -51,11 +52,6 @@ class Functionality_Functions extends Functionality_File {
 
 		/* Activate the newly-created plugin */
 		if ( $activate_plugin && ! is_plugin_active( $this->get_file() ) ) {
-
-			if ( ! function_exists( 'activate_plugin' ) ) {
-				require_once ABSPATH . '/wp-admin/includes/plugin.php';
-			}
-
 			activate_plugin( $this->get_file() );
 		}
 
