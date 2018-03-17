@@ -16,7 +16,7 @@ class Functionality_Functions extends Functionality_File {
 
 		/* No need to do anything here if the plugin has already been created */
 		if ( file_exists( $this->get_full_path() ) ) {
-			return false;
+			return true;
 		}
 
 		/* Create the new file using the parent function */

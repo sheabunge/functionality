@@ -96,38 +96,84 @@ class Functionality_File {
 	 * Retrieve the administration URL to the plugin editor for this file
 	 * @return string
 	 */
-	public function get_edit_url() {
-		return add_query_arg( 'file', urlencode( $this->get_file() ), admin_url( 'plugin-editor.php' ) );
+	public function get_editor_url() {
+		$file = urlencode( $this->get_file() );
+
+		/* link to WP Editor if it is installed */
+		if ( class_exists( 'WPEditor' ) ) {
+			return add_query_arg( array( 'page' => 'wpeditor_plugin', 'plugin' => $file ), admin_url( 'admin.php' ) );
+
+		} else {
+			/* otherwise link to the default WordPress editor */
+			return add_query_arg( 'file', $file, admin_url( 'plugin-editor.php' ) );
+		}
+	}
+
+	/**
+	 * Retrieve the URL to the administration menu
+	 * @return string
+	 */
+	public function get_menu_url() {
+		return add_query_arg( 'page', $this->get_menu_slug(), 'plugins.php' );
 	}
 
 	/**
 	 * Load the WP Filesystem API
-	 * @return bool
+	 *
+	 * @param bool $silent Prevent a credential form from being displayed
+	 *
+	 * @return bool true on success; false on failure
 	 */
-	private function load_wp_filesystem() {
-		$url = wp_nonce_url( add_query_arg( 'page', $this->get_filename(), 'plugins.php' ), 'functionality' );
-		$extra_fields = array(  'create_plugin' );
+	private function load_wp_filesystem( $silent = false ) {
 
-		if ( false === ( $creds = request_filesystem_credentials( $url, '', false, false, $extra_fields ) ) ) {
-			return true;
+		if ( $silent ) {
+
+			/* if the FS method is direct, we can just call the function and load the class */
+			if ( 'direct' === get_filesystem_method() ) {
+				$creds = request_filesystem_credentials( self_admin_url() );
+				return WP_Filesystem( $creds );
+			}
+
+			/* otherwise, attempt to call the function, but catch all of its output */
+			ob_start();
+			$creds = request_filesystem_credentials( self_admin_url() );
+			ob_end_clean();
+
+			if ( false !== $creds ) {
+				return WP_Filesystem( $creds );
+			}
+
+			return false;
 		}
 
+		/* otherwise, we can request filesystem credentials using a form if necessary */
+		$url = wp_nonce_url( $this->get_menu_url(), 'functionality' );
+		$creds = request_filesystem_credentials( $url );
+
+		/* if the credentials are false, more information is needed */
+		if ( false === $creds ) {
+			return false;
+		}
+
+		/* test the provided credentials, and prompt again if necessary */
 		if ( ! WP_Filesystem( $creds ) ) {
-			request_filesystem_credentials( $url, '', false, false, $extra_fields );
-			return true;
+			request_filesystem_credentials( $url, '', true );
+			return false;
 		}
 
-		return false;
+		return true;
 	}
 
 	/**
 	 * Create file in the plugins directory if it does not already exist
 	 *
-	 * @return bool If the file creation was successful
+	 * @param bool $silent Attempt to create the plugin without prompting for filesystem credentials
+	 *
+	 * @return bool true if file now exists
 	 *
 	 * @since 1.0
 	 */
-	public function create_file() {
+	public function create_file( $silent = true ) {
 		$file = $this->get_full_path();
 
 		/* Bail early if the file already exists */
@@ -136,7 +182,9 @@ class Functionality_File {
 		}
 
 		/* Load the WP Filesystem API */
-		$this->load_wp_filesystem();
+		if ( ! $this->load_wp_filesystem( $silent ) ) {
+			return false;
+		}
 
 		/** @var WP_Filesystem_Base $wp_filesystem */
 		global $wp_filesystem;
@@ -159,6 +207,14 @@ class Functionality_File {
 	}
 
 	/**
+	 * Retrieve the WordPress admin menu slug for this file
+	 * @return string
+	 */
+	public function get_menu_slug() {
+		return 'functionality-' . $this->get_filename();
+	}
+
+	/**
 	 * Add a link to edit this file to the Plugins admin menu for easy access
 	 *
 	 * @param string $label Text to use for the menu label
@@ -170,35 +226,35 @@ class Functionality_File {
 		$hook = add_plugins_page(
 			$label, $label,
 			'edit_plugins',
-			'functionality-' . $this->get_filename(),
-			array( $this, 'redirect_edit_menu' )
+			$this->get_menu_slug(),
+			array( $this, 'render_admin_menu' )
 		);
 
-		add_action( 'load-' . $hook, array( $this, 'redirect_edit_menu' ) );
+		add_action( 'load-' . $hook, array( $this, 'load_admin_menu' ) );
 
 		return $hook;
 	}
 
 	/**
-	 * Redirect the user to edit the page after loading the edit menu
+	 * Create the file and redirect the user to the edit menu, if possible
 	 */
-	public function redirect_edit_menu() {
+	public function load_admin_menu() {
 
-		/* create the file if it does not exist */
-		$this->create_file();
-
-		$file = $this->get_file();
-		$editor_url = $this->get_edit_url();
-
-		if ( class_exists( 'WPEditor' )  ) {
-
-			$editor_url = add_query_arg(
-				array( 'page' => 'wpeditor_plugin', 'plugin' => $file ),
-				admin_url( 'admin.php' )
-			);
+		/* don't redirect if the file cannot be created */
+		if ( ! $this->create_file( true ) ) {
+			return;
 		}
 
-		wp_redirect( esc_url_raw( $editor_url ) );
+		wp_redirect( esc_url_raw( $this->get_editor_url() ) );
+		exit;
+	}
+
+	/**
+	 * Render the edit menu, possibly displaying a filesystem credentials form
+	 */
+	public function render_admin_menu() {
+		/* if we have reached this point, we need to display the credential form */
+		$this->create_file( false );
 	}
 
 	/**
