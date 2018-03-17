@@ -4,26 +4,20 @@
  * Makes it easy to create and edit your own functionality plugin
  * for pasting snippets instead of in the theme's functions.php
  *
- * To minimize confusion, throughout this file when I refer to
- * 'functionality plugin', I mean the functions.php file that is
- * created by this plugin in the WordPress plugins folder.
- * When I refer to 'this plugin', I'm talking about the plugin
- * whose code you're currently looking at.
- *
- * @version   1.2.1
+ * @version   2.0.0
  * @author    Shea Bunge <shea@bungeshea.com>
- * @copyright Copyright (c) 2013-2016, Shea Bunge
+ * @copyright Copyright (c) 2013-2018, Shea Bunge
  * @license   https://opensource.org/licenses/MIT
  */
 
 /*
 Plugin Name: Functionality
-Plugin URI: https://github.com/sheabunge/functionality
+Plugin URI:  https://github.com/sheabunge/functionality
 Description: Makes it easy to create and edit your own functionality plugin for pasting snippets instead of in the theme's functions.php
-Author: Shea Bunge
-Author URI: https://bungeshea.com
-Version: 1.2.1
-License: MIT
+Author:      Shea Bunge
+Author URI:  https://bungeshea.com
+Version:     2.0.0
+License:     MIT
 License URI: https://opensource.org/licenses/MIT
 Text Domain: functionality
 Domain Path: /languages

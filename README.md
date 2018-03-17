@@ -6,6 +6,6 @@ This plugin automates the process of creating a functionality plugin. Simply ins
 
 See [this WP Daily post](http://wpdaily.co/functionality-plugin/) for more information on functionality plugins.
 
-This plugin may be removed at any time, and your functionality plugin will remain working and intact. You will, however, loose the quick edit link in the admin menu.
+This plugin may be removed at any time, and your functionality plugin will remain working and intact. You will, however, loose the quick edit links in the admin menu, and automatic styles loading if that feature is enabled.
 
 ![Editing the functionality plugin in the WordPress plugin header](screenshots/banner-772x250.png)
