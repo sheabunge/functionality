@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: functionality 1.2.1\n"
+"Project-Id-Version: functionality 2.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-14 12:48+1100\n"
+"POT-Creation-Date: 2018-03-17 18:23+1100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,11 +17,15 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: php/class-controller.php:46
+#: php/class-controller.php:65
+msgid "Edit Styles"
+msgstr ""
+
+#: php/class-controller.php:68
 msgid "Edit Functions"
 msgstr ""
 
-#: php/class-plugin.php:98
+#: php/class-functions.php:110
 #, php-format
 msgid ""
 "A site-specific functionality plugin for %s where you can paste your code "

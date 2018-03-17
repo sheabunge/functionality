@@ -62,10 +62,10 @@ class Functionality_Controller {
 	public function add_admin_menus() {
 
 		if ( $this->styles_enabled ) {
-			$this->styles->register_edit_menu( __( 'Edit Styles', 'functionality' ) );
+			$this->styles->register_admin_menu( __( 'Edit Styles', 'functionality' ) );
 		}
 
-		$this->functions->register_edit_menu( __( 'Edit Functions', 'functionality' ) );
+		$this->functions->register_admin_menu( __( 'Edit Functions', 'functionality' ) );
 	}
 
 	/**

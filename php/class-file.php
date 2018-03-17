@@ -221,7 +221,7 @@ class Functionality_File {
 	 *
 	 * @return string hook name for the newly created page
 	 */
-	public function register_edit_menu( $label ) {
+	public function register_admin_menu( $label ) {
 
 		$hook = add_plugins_page(
 			$label, $label,
