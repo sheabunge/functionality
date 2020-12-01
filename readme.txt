@@ -1,8 +1,9 @@
 === Functionality ===
 Contributors: bungeshea
-Donate link: https://bungeshea.com/donate/
+Donate link: https://sheabunge.com/donate/
 Tags: functionality, functions.php
-Tested up to: 4.9.4
+Tested up to: 5.6.0
+Requires PHP: 5.2
 Stable tag: 2.0.0
 License: MIT
 License URI: https://opensource.org/licenses/MIT
