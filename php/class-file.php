@@ -30,9 +30,9 @@ class Functionality_File {
 	/**
 	 * Constructor
 	 *
-	 * @since 1.0
-	 *
 	 * @param string $filename The filename of the functionality plugin
+	 *
+	 * @since 1.0
 	 */
 	public function __construct( $filename ) {
 		$this->base_location = WP_PLUGIN_DIR;
@@ -43,8 +43,9 @@ class Functionality_File {
 	/**
 	 * Set the filename to use when creating the file
 	 *
-	 * @since 1.0
 	 * @param string $filename
+	 *
+	 * @since 1.0
 	 */
 	public function set_filename( $filename ) {
 		$this->filename = sanitize_file_name( $filename );
@@ -53,8 +54,8 @@ class Functionality_File {
 	/**
 	 * Retrieve the filename
 	 *
-	 * @since 1.0
 	 * @return string
+	 * @since 1.0
 	 */
 	public function get_filename() {
 		return $this->filename;

@@ -8,7 +8,7 @@ class Functionality_Functions extends Functionality_File {
 	/**
 	 * Create file in the plugins directory if it does not already exist
 	 *
-	 * @param bool $silent Attempt to create the file without prompting for filesystem credentials
+	 * @param bool $silent          Attempt to create the file without prompting for filesystem credentials
 	 * @param bool $activate_plugin Activate the plugin after creation
 	 *
 	 * @return bool If the file now exists
@@ -28,7 +28,8 @@ class Functionality_Functions extends Functionality_File {
 		do_action( 'functionality_plugin_created', $this->get_full_path() );
 
 		/* Clean up the previous version of the plugin if it exists */
-		global $wp_filesystem; /** @var WP_Filesystem_Base $wp_filesystem */
+		/** @var WP_Filesystem_Base $wp_filesystem */
+		global $wp_filesystem;
 
 		if ( ! function_exists( 'deactivate_plugins' ) ) {
 			require_once ABSPATH . '/wp-admin/includes/plugin.php';
@@ -89,11 +90,10 @@ class Functionality_Functions extends Functionality_File {
 	/**
 	 * Build the header comment for the plugin
 	 *
-	 * @since 1.0
-	 *
 	 * @param array $plugin_header The headers for the plugin
 	 *
 	 * @return string
+	 * @since 1.0
 	 */
 	public function get_plugin_header( $plugin_header = array() ) {
 
@@ -103,7 +103,7 @@ class Functionality_Functions extends Functionality_File {
 		$default_plugin_header = array(
 			'Plugin Name' => get_bloginfo( 'name' ),
 			'Plugin URI'  => home_url(),
-			'Description' => sprintf ( __( "A site-specific functionality plugin for %s where you can paste your code snippets instead of using the theme's functions.php file", 'functionality' ), get_bloginfo( 'name' ) ),
+			'Description' => sprintf( __( "A site-specific functionality plugin for %s where you can paste your code snippets instead of using the theme's functions.php file", 'functionality' ), get_bloginfo( 'name' ) ),
 			'Author'      => $current_user->display_name,
 			'Author URI'  => $current_user->user_url,
 			'Version'     => date( 'Y.m.d' ),

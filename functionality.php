@@ -6,7 +6,7 @@
  *
  * @version   2.0.0
  * @author    Shea Bunge <shea@bungeshea.com>
- * @copyright Copyright (c) 2013-2018, Shea Bunge
+ * @copyright Copyright (c) 2013-2020, Shea Bunge
  * @license   https://opensource.org/licenses/MIT
  */
 
@@ -15,7 +15,7 @@ Plugin Name: Functionality
 Plugin URI:  https://github.com/sheabunge/functionality
 Description: Makes it easy to create and edit your own functionality plugin for pasting snippets instead of in the theme's functions.php
 Author:      Shea Bunge
-Author URI:  https://bungeshea.com
+Author URI:  https://sheabunge.com
 Version:     2.0.0
 License:     MIT
 License URI: https://opensource.org/licenses/MIT
@@ -25,6 +25,7 @@ Domain Path: /languages
 
 /**
  * Enable autoloading of plugin classes
+ *
  * @param $class_name
  */
 function functionality_autoload( $class_name ) {
@@ -41,19 +42,17 @@ function functionality_autoload( $class_name ) {
 	$class_file = strtolower( $class_file );
 	$class_file = str_replace( '_', '-', $class_file );
 
-
 	/* Load the class */
 	require_once dirname( __FILE__ ) . "/php/class-{$class_file}.php";
 }
 
 spl_autoload_register( 'functionality_autoload' );
 
-
 /**
  * Create an instance of the class
  *
- * @since 1.0
  * @return Functionality_Controller
+ * @since 1.0
  */
 function functionality() {
 	static $controller;

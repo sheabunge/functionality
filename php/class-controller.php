@@ -1,8 +1,7 @@
 <?php
 
-
 /**
- * Class Functionality_Controller
+ * Main controller class.
  */
 class Functionality_Controller {
 
@@ -30,6 +29,7 @@ class Functionality_Controller {
 
 	/**
 	 * Class constructor
+	 *
 	 * @param string $plugin_file Full filesystem path to main plugin file
 	 */
 	public function __construct( $plugin_file ) {
@@ -84,7 +84,7 @@ class Functionality_Controller {
 	 */
 	function load_textdomain() {
 		$rel_path = dirname( plugin_basename( $this->plugin_file ) );
-		load_plugin_textdomain( 'functionality', false,  $rel_path . '/languages/' );
+		load_plugin_textdomain( 'functionality', false, $rel_path . '/languages/' );
 	}
 }
 
